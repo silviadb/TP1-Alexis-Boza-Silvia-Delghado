@@ -1,8 +1,8 @@
 %{
 #include <stdio.h>
+#include <math.h>
 %} 
 /*definiciones*/
-int linea=0;
 DocType !DOCTYPE
 Size size
 Char char
@@ -13,11 +13,14 @@ CommentOpenTag "<--"
 CommentCloseTag "-->"
 Equal =
 Parentesis "()"
+/*Arreglar esto*/
+Ident [a-zA-Z0-9]*[".",",","/",'\',"-"]* 
 Expresion "\""+{Ident}+"\""
 Funcion "\""+{Ident}+{Parentesis}"\""
-Ident [a-zA-Z]*[0-9]*[a-zA-Z]*
+
 /*fin definiciones*/
 %%
+xml  printf("[T_xml]");
 base printf("[T_base]");/*Estructura*/
 body printf("[T_body]");
 head printf("[T_head]");
@@ -91,11 +94,13 @@ legend printf("[T_legend]");
 optgroup printf("[T_optgroup]");
 option printf("[T_option]");
 select printf("[T_select]");
-legend printf("[T_textarea]");
+textarea printf("[T_textarea]");
 noscript printf("[T_noscript]");/* scripting*/
 script printf("[T_script]");
 href printf("[ATT_href]");/*Atributos*/
+version printf("[ATT_version]");
 class printf("[ATT_class]");
+PUBLIC printf("ATT_PUBLIC");
 id printf("[ATT_id]");
 dir printf("[ATT_dir]");
 style printf("[ATT_style]");
@@ -147,29 +152,36 @@ rowspan printf("[ATT_rowspan]");
 scope printf("[ATT_scope]");
 disable:disable printf("[ATT_disable]");
 accept printf("[ATT_accept]");
-charset printf("[ATT_charset]");
 action printf("[ATT_action]");
 enctype printf("[ATT_enctype]");
 method printf("[ATT_method]");
 checked:checked printf("[ATT_checked]");
 maxlegth printf("[ATT_maxlegth]");
 readonly:readonly printf("[ATT_readonly]");
+{Tag}	printf("[<]");
+{TagClose} printf("[>]");
+{FinalTagClose} printf("[</]");
+{CommentOpenTag} printf("[<--]");
+CommentCloseTag printf("[-->]");
+{Equal} printf("[=]");
+{Parentesis} printf("[()]");
+"?" printf("[?]");
 {Size} printf("[ATT_size]");
 {DocType} printf("[T_!DOCTYPE]");
-{Expresion} printf("[T_EXP]");/*"_valor_"*/
-{Funcion} printf("[T_FUNC]"); /*"funcion()"*/
+{Expresion} printf("[T_EXP] %s",yytext);
+{Funcion} printf("[T_FUNC] %s",yytext); 
 {Ident} printf("[T_IDENT] %s",yytext);
-á fprintf(stderr,"Error: Unrecognized character %s",yytext);/*ERRORES*/
-à fprintf(stderr,"Error: Unrecognized character %s",yytext);
-é fprintf(stderr,"Error: Unrecognized character %s",yytext);
-è fprintf(stderr,"Error: Unrecognized character %s",yytext);
-í fprintf(stderr,"Error: Unrecognized character %s",yytext);
-ì fprintf(stderr,"Error: Unrecognized character %s",yytext);
-ó fprintf(stderr,"Error: Unrecognized character %s",yytext);
-ò fprintf(stderr,"Error: Unrecognized character %s",yytext);
-ú fprintf(stderr,"Error: Unrecognized character %s",yytext);
-ù fprintf(stderr,"Error: Unrecognized character %s",yytext);
-@ fprintf(stderr,"Error: Unrecognized character %s",yytext);
-ñ fprintf(stderr,"Error: Unrecognized character %s",yytext);
-[\t\n]+	printf("Tab o espacio");
+á fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);/*ERRORES*/
+à fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
+é fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
+è fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
+í fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
+ì fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
+ó fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
+ò fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
+ú fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
+ù fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
+@ fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
+ñ fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
+[\n\t]	
 %%
