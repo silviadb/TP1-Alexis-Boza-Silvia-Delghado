@@ -1,8 +1,10 @@
 %{
 #include <stdio.h>
 #include <math.h>
+int T_identificador = 0;/*valor default 0(no tag) y 1(tag)*/
 %} 
 /*definiciones*/
+
 DocType !DOCTYPE
 Size size
 Char char
@@ -14,160 +16,160 @@ CommentCloseTag "-->"
 Equal =
 Parentesis "()"
 /*Arreglar esto*/
-Ident [a-zA-Z0-9]*[".",",","/",'\',"-"]* 
+Ident  [a-zA-Z][a-z,A-Z,0-9,".",",","/",'\',"-"]*
 Expresion "\""+{Ident}+"\""
 Funcion "\""+{Ident}+{Parentesis}"\""
 
 /*fin definiciones*/
 %%
-xml  printf("[T_xml]");
-base printf("[T_base]");/*Estructura*/
-body printf("[T_body]");
-head printf("[T_head]");
-html printf("[T_html]");
-meta printf("[T_meta]");
-title printf("[T_title]");
-abbr printf("[T_abbr]");/*Texto*/
-acronym printf("[T_acronym]");
-address printf("[T_address]");
-b printf("[T_b]");
-bdo printf("[T_bdo]");
-big printf("[T_big]");
-blockquote printf("[T_blockquote]");
-br printf("[T_br]");
-cite printf("[T_cite]");
-code printf("[T_code]");
-del printf("[T_del]");
-dfn printf("[T_dfn]");
-div printf("[T_div]");
-em printf("[T_em]");
-h1 printf("[T_h1]");
-h2 printf("[T_h2]");
-h3 printf("[T_h3]");
-h4 printf("[T_h4]");
-h5 printf("[T_h5]");
-h6 printf("[T_h6]");
-hr printf("[T_hr]");
-i printf("[T_i]");
-ins printf("[T_ins]");
-kbd printf("[T_kbd]");
-p printf("[T_p]");
-pre printf("[T_pre]");
-q printf("[T_q]");
-samp printf("[T_samp]");
-small printf("[T_small]");
-span printf("[T_span]");
-strong printf("[T_strong]");
-sub printf("[T_sub]");
-sup printf("[T_sup]");
-tt printf("[T_tt]");
-var printf("[T_var]");
-dd printf("[T_dd]");/*Elementos de lista*/
-dl printf("[T_dl]");
-dt printf("[T_dt]");
-li printf("[T_li]");
-ol printf("[T_ol]");
-ul printf("[T_ul]");
-a printf("[T_a]");/*Vinculacion*/
-link printf("[T_link]");
-area printf("[T_area]");/*Objetos*/
-img printf("[T_img]");
-map printf("[T_map]");
-object printf("[T_object]");
-param printf("[T_param]");
-caption printf("[T_caption]");/*Tabla*/
-col printf("[T_col]");
-colgroup printf("[T_colgroup]");
-table printf("[T_table]");
-tbody printf("[T_tbody]");
-td printf("[T_td]");
-tfoot printf("[T_tfoot]");
-th printf("[T_th]");
-thead printf("[T_thead]");
-tr printf("[T_tr]");
-button printf("[T_button]");/*Formulario*/
-fieldset printf("[T_fieldset]");
-form printf("[T_form]");
-input printf("[T_input]");
-label printf("[T_label]");
-legend printf("[T_legend]");
-optgroup printf("[T_optgroup]");
-option printf("[T_option]");
-select printf("[T_select]");
-textarea printf("[T_textarea]");
-noscript printf("[T_noscript]");/* scripting*/
-script printf("[T_script]");
-href printf("[ATT_href]");/*Atributos*/
-version printf("[ATT_version]");
-class printf("[ATT_class]");
-PUBLIC printf("ATT_PUBLIC");
-id printf("[ATT_id]");
-dir printf("[ATT_dir]");
-style printf("[ATT_style]");
-xml:lang printf("[ATT_xmllang]");
-profile printf("[ATT_profile]");
-xmlns printf("[ATT_xmlns]");
-content printf("[ATT_content]");
-http-equiv printf("[ATT_httpequiv]");
-name printf("[ATT_name]");
-scheme printf("[ATT_scheme]");
-datetime printf("[ATT_datetime]");
-accesskey printf("[ATT_accesskey]");
-charset printf("[ATT_charset]");
-hreflang printf("[ATT_hreflang]");
-rel printf("[ATT_rel]");
-rev printf("[ATT_rev]");
-tabindex printf("[ATT_tabindex]");
-type printf("[ATT_type]");
-media printf("[ATT_media]");
-alt printf("[ATT_alt]");
-coords printf("[ATT_coords]");
-shape printf("[ATT_shape]");
-nohref:nohref printf("[ATT_nohref]");
-height printf("[ATT_height]");
-longdesc printf("[ATT_longdesc]");
-src printf("[ATT_src]");
-usemap printf("[ATT_usemap]");
-width printf("[ATT_width]");
-classic printf("[ATT_classic]");
-codebase printf("[ATT_codebase]");
-codetype printf("[ATT_codetype]");
-data printf("[ATT_data]");
-declare:declare printf("[ATT_declare]");
-archive printf("[ATT_archive]");
-standby printf("[ATT_standby]");
-value printf("[ATT_value]");
-align printf("[ATT_align]");
-{Char} printf("[ATT_char]");
-charoff printf("[ATT_charoff]");
-valign printf("[ATT_valign]");
-borders printf("[ATT_borders]");
-frame printf("[ATT_frame]");
-rules printf("[ATT_rules]");
-summary printf("[ATT_summary]");
-axis printf("[ATT_axis]");
-colspan printf("[ATT_colspan]");
-headers printf("[ATT_headers]");
-rowspan printf("[ATT_rowspan]");
-scope printf("[ATT_scope]");
-disable:disable printf("[ATT_disable]");
-accept printf("[ATT_accept]");
-action printf("[ATT_action]");
-enctype printf("[ATT_enctype]");
-method printf("[ATT_method]");
-checked:checked printf("[ATT_checked]");
-maxlegth printf("[ATT_maxlegth]");
-readonly:readonly printf("[ATT_readonly]");
-{Tag}	printf("[<]");
-{TagClose} printf("[>]");
-{FinalTagClose} printf("[</]");
+xml {if(T_identificador == 1) printf("[T_xml]");}
+base {if(T_identificador == 1) printf("[T_base]");}/*Estructura*/
+body {if(T_identificador == 1) printf("[T_body]");}
+head {if(T_identificador == 1) printf("[T_head]");}
+html {if(T_identificador == 1) printf("[T_html]");}
+meta {if(T_identificador == 1) printf("[T_meta]");}
+title {if(T_identificador == 1) printf("[T_title]");}
+abbr {if(T_identificador == 1) printf("[T_abbr]");}/*Texto*/
+acronym {if(T_identificador == 1) printf("[T_acronym]");}
+address {if(T_identificador == 1) printf("[T_address]");}
+b {if(T_identificador == 1) printf("[T_b]");}
+bdo {if(T_identificador == 1) printf("[T_bdo]");}
+big {if(T_identificador == 1) printf("[T_big]");}
+blockquote {if(T_identificador == 1) printf("[T_blockquote]");}
+br {if(T_identificador == 1) printf("[T_br]");}
+cite {if(T_identificador == 1) printf("[T_cite]");}
+code {if(T_identificador == 1) printf("[T_code]");}
+del {if(T_identificador == 1) printf("[T_del]");}
+dfn {if(T_identificador == 1) printf("[T_dfn]");}
+div {if(T_identificador == 1) printf("[T_div]");}
+em {if(T_identificador == 1) printf("[T_em]");}
+h1 {if(T_identificador == 1) printf("[T_h1]");}
+h2 {if(T_identificador == 1) printf("[T_h2]");}
+h3 {if(T_identificador == 1) printf("[T_h3]");}
+h4 {if(T_identificador == 1) printf("[T_h4]");}
+h5 {if(T_identificador == 1) printf("[T_h5]");}
+h6 {if(T_identificador == 1) printf("[T_h6]");}
+hr {if(T_identificador == 1) printf("[T_hr]");}
+i {if(T_identificador == 1) printf("[T_i]");}
+ins {if(T_identificador == 1) printf("[T_ins]");}
+kbd {if(T_identificador == 1) printf("[T_kbd]");}
+p {if(T_identificador == 1) printf("[T_p]");}
+pre {if(T_identificador == 1) printf("[T_pre]");}
+q {if(T_identificador == 1) printf("[T_q]");}
+samp {if(T_identificador == 1) printf("[T_samp]");}
+small {if(T_identificador == 1) printf("[T_small]");}
+span {if(T_identificador == 1) printf("[T_span]");}
+strong {if(T_identificador == 1) printf("[T_strong]");}
+sub {if(T_identificador == 1) printf("[T_sub]");}
+sup {if(T_identificador == 1) printf("[T_sup]");}
+tt {if(T_identificador == 1) printf("[T_tt]");}
+var {if(T_identificador == 1) printf("[T_var]");}
+dd {if(T_identificador == 1) printf("[T_dd]");}/*Elementos de lista*/
+dl {if(T_identificador == 1) printf("[T_dl]");}
+dt {if(T_identificador == 1) printf("[T_dt]");}
+li {if(T_identificador == 1) printf("[T_li]");}
+ol {if(T_identificador == 1) printf("[T_ol]");}
+ul {if(T_identificador == 1) printf("[T_ul]");}
+a {if(T_identificador == 1) printf("[T_a]");}/*Vinculacion*/
+link {if(T_identificador == 1) printf("[T_link]");}
+area {if(T_identificador == 1) printf("[T_area]");}/*Objetos*/
+img {if(T_identificador == 1) printf("[T_img]");}
+map {if(T_identificador == 1) printf("[T_map]");}
+object {if(T_identificador == 1) printf("[T_object]");}
+param {if(T_identificador == 1) printf("[T_param]");}
+caption {if(T_identificador == 1) printf("[T_caption]");}/*Tabla*/
+col {if(T_identificador == 1) printf("[T_col]");}
+colgroup {if(T_identificador == 1) printf("[T_colgroup]");}
+table {if(T_identificador == 1) printf("[T_table]");}
+tbody {if(T_identificador == 1) printf("[T_tbody]");}
+td {if(T_identificador == 1) printf("[T_td]");}
+tfoot {if(T_identificador == 1) printf("[T_tfoot]");}
+th {if(T_identificador == 1) printf("[T_th]");}
+thead {if(T_identificador == 1) printf("[T_thead]");}
+tr {if(T_identificador == 1) printf("[T_tr]");}
+button {if(T_identificador == 1) printf("[T_button]");}/*Formulario*/
+fieldset {if(T_identificador == 1) printf("[T_fieldset]");}
+form {if(T_identificador == 1) printf("[T_form]");}
+input {if(T_identificador == 1) printf("[T_input]");}
+label {if(T_identificador == 1) printf("[T_label]");}
+legend {if(T_identificador == 1) printf("[T_legend]");}
+optgroup {if(T_identificador == 1) printf("[T_optgroup]");}
+option {if(T_identificador == 1) printf("[T_option]");}
+select {if(T_identificador == 1) printf("[T_select]");}
+textarea {if(T_identificador == 1) printf("[T_textarea]");}
+noscript {if(T_identificador == 1) printf("[T_noscript]");}/* scripting*/
+script {if(T_identificador == 1) printf("[T_script]");}
+href {if(T_identificador == 1) printf("[ATT_href]");}/*Atributos*/
+version {if(T_identificador == 1) printf("[ATT_version]");}
+class {if(T_identificador == 1) printf("[ATT_class]");}
+PUBLIC {if(T_identificador == 1) printf("ATT_PUBLIC");}
+id {if(T_identificador == 1) printf("[ATT_id]");}
+dir {if(T_identificador == 1) printf("[ATT_dir]");}
+style {if(T_identificador == 1) printf("[ATT_style]");}
+xml:lang {if(T_identificador == 1) printf("[ATT_xmllang]");}
+profile {if(T_identificador == 1) printf("[ATT_profile]");}
+xmlns {if(T_identificador == 1) printf("[ATT_xmlns]");}
+content {if(T_identificador == 1) printf("[ATT_content]");}
+http-equiv {if(T_identificador == 1) printf("[ATT_httpequiv]");}
+name {if(T_identificador == 1) printf("[ATT_name]");}
+scheme {if(T_identificador == 1) printf("[ATT_scheme]");}
+datetime {if(T_identificador == 1) printf("[ATT_datetime]");}
+accesskey {if(T_identificador == 1) printf("[ATT_accesskey]");}
+charset {if(T_identificador == 1) printf("[ATT_charset]");}
+hreflang {if(T_identificador == 1) printf("[ATT_hreflang]");}
+rel {if(T_identificador == 1) printf("[ATT_rel]");}
+rev {if(T_identificador == 1) printf("[ATT_rev]");}
+tabindex {if(T_identificador == 1) printf("[ATT_tabindex]");}
+type {if(T_identificador == 1) printf("[ATT_type]");}
+media {if(T_identificador == 1) printf("[ATT_media]");}
+alt {if(T_identificador == 1) printf("[ATT_alt]");}
+coords {if(T_identificador == 1) printf("[ATT_coords]");}
+shape {if(T_identificador == 1) printf("[ATT_shape]");}
+nohref:nohref {if(T_identificador == 1) printf("[ATT_nohref]");}
+height {if(T_identificador == 1) printf("[ATT_height]");}
+longdesc {if(T_identificador == 1) printf("[ATT_longdesc]");}
+src {if(T_identificador == 1) printf("[ATT_src]");}
+usemap {if(T_identificador == 1) printf("[ATT_usemap]");}
+width {if(T_identificador == 1) printf("[ATT_width]");}
+classic {if(T_identificador == 1) printf("[ATT_classic]");}
+codebase {if(T_identificador == 1) printf("[ATT_codebase]");}
+codetype {if(T_identificador == 1) printf("[ATT_codetype]");}
+data {if(T_identificador == 1) printf("[ATT_data]");}
+declare:declare {if(T_identificador == 1) printf("[ATT_declare]");}
+archive {if(T_identificador == 1) printf("[ATT_archive]");}
+standby {if(T_identificador == 1) printf("[ATT_standby]");}
+value {if(T_identificador == 1) printf("[ATT_value]");}
+align {if(T_identificador == 1) printf("[ATT_align]");}
+{Char} {if(T_identificador == 1) printf("[ATT_char]");}
+charoff {if(T_identificador == 1) printf("[ATT_charoff]");}
+valign {if(T_identificador == 1) printf("[ATT_valign]");}
+borders {if(T_identificador == 1) printf("[ATT_borders]");}
+frame {if(T_identificador == 1) printf("[ATT_frame]");}
+rules {if(T_identificador == 1) printf("[ATT_rules]");}
+summary {if(T_identificador == 1) printf("[ATT_summary]");}
+axis {if(T_identificador == 1) printf("[ATT_axis]");}
+colspan {if(T_identificador == 1) printf("[ATT_colspan]");}
+headers {if(T_identificador == 1) printf("[ATT_headers]");}
+rowspan {if(T_identificador == 1) printf("[ATT_rowspan]");}
+scope {if(T_identificador == 1) printf("[ATT_scope]");}
+disable:disable {if(T_identificador == 1) printf("[ATT_disable]");}
+accept {if(T_identificador == 1) printf("[ATT_accept]");}
+action {if(T_identificador == 1) printf("[ATT_action]");}
+enctype {if(T_identificador == 1) printf("[ATT_enctype]");}
+method {if(T_identificador == 1) printf("[ATT_method]");}
+checked:checked {if(T_identificador == 1) printf("[ATT_checked]");}
+maxlegth {if(T_identificador == 1) printf("[ATT_maxlegth]");}
+readonly:readonly {if(T_identificador == 1) printf("[ATT_readonly]");}
+{Tag}	{T_identificador=1;printf("[<]");}
+{TagClose} {T_identificador=0;printf("[>]");}
+{FinalTagClose}  {T_identificador=1; printf("[</]");}
 {CommentOpenTag} printf("[<--]");
 CommentCloseTag printf("[-->]");
 {Equal} printf("[=]");
 {Parentesis} printf("[()]");
-"?" printf("[?]");
-{Size} printf("[ATT_size]");
-{DocType} printf("[T_!DOCTYPE]");
+"?" {if(T_identificador == 1) printf("[?]");}
+{Size} {if(T_identificador == 1) printf("[ATT_size]");}
+{DocType} {if(T_identificador == 1) printf("[T_!DOCTYPE]");}
 {Expresion} printf("[T_EXP] %s",yytext);
 {Funcion} printf("[T_FUNC] %s",yytext); 
 {Ident} printf("[T_IDENT] %s",yytext);
@@ -183,5 +185,11 @@ CommentCloseTag printf("[-->]");
 ù fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
 @ fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
 ñ fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
-[\n\t]	
+[\n\t] 
+. fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
 %%
+int main() {
+ yylex();
+ printf("Terminó");
+ return 1;
+}
