@@ -163,8 +163,8 @@ readonly:readonly {if(T_identificador == 1) printf("[ATT_readonly]");}
 {Tag}	{T_identificador=1;printf("[<]");}
 {TagClose} {T_identificador=0;printf("[>]");}
 {FinalTagClose}  {T_identificador=1; printf("[</]");}
-{CommentOpenTag} printf("[<--]");
-CommentCloseTag printf("[-->]");
+{CommentOpenTag} {T_identificador=1;printf("[<--]");}
+CommentCloseTag  {T_identificador=0;printf("[-->]");}
 {Equal} printf("[=]");
 {Parentesis} printf("[()]");
 "?" {if(T_identificador == 1) printf("[?]");}
