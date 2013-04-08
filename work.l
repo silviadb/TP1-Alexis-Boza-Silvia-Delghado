@@ -186,8 +186,7 @@ CommentCloseTag  {T_identificador=0;printf("[-->]");}
 ù fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
 @ fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
 ñ fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
-\n*;
-\t*;
+[\t\n]+
 " " ;/*AL parecer el t no toma los espacios solo los tabs*/
 . fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
 %%
