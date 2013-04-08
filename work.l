@@ -16,7 +16,7 @@ CommentCloseTag "-->"
 Equal =
 Parentesis "()"
 /*Arreglar esto*/
-Ident  [a-zA-Z][a-z,A-Z,0-9,".",",","/",'\',"-"]*
+Ident  [a-z,A-Z,0-9,".",":",",","/","-","_",'\']*
 Expresion "\""+{Ident}+"\""
 Funcion "\""+{Ident}+{Parentesis}"\""
 
@@ -159,6 +159,7 @@ enctype {if(T_identificador == 1) printf("[ATT_enctype]");}
 method {if(T_identificador == 1) printf("[ATT_method]");}
 checked:checked {if(T_identificador == 1) printf("[ATT_checked]");}
 maxlegth {if(T_identificador == 1) printf("[ATT_maxlegth]");}
+
 readonly:readonly {if(T_identificador == 1) printf("[ATT_readonly]");}
 {Tag}	{T_identificador=1;printf("[<]");}
 {TagClose} {T_identificador=0;printf("[>]");}
@@ -185,11 +186,12 @@ CommentCloseTag  {T_identificador=0;printf("[-->]");}
 ù fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
 @ fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
 ñ fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
-[\n\t] 
+\n*;
+\t*;
+" " ;/*AL parecer el t no toma los espacios solo los tabs*/
 . fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
 %%
 int main() {
  yylex();
- printf("Terminó");
  return 1;
 }
