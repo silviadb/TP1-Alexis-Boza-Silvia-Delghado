@@ -16,7 +16,7 @@ CommentCloseTag "-->"
 Equal =
 Parentesis "()"
 /*Arreglar esto*/
-Ident  [a-z,A-Z,0-9,".",":",",","/","-","_",'\']*
+Ident  [a-z,A-Z,0-9,".",":",",","/","\-","_",'\\']+
 Expresion "\""+{Ident}+"\""
 Funcion "\""+{Ident}+{Parentesis}"\""
 
@@ -102,7 +102,7 @@ script {if(T_identificador == 1) printf("[T_script]");}
 href {if(T_identificador == 1) printf("[ATT_href]");}/*Atributos*/
 version {if(T_identificador == 1) printf("[ATT_version]");}
 class {if(T_identificador == 1) printf("[ATT_class]");}
-PUBLIC {if(T_identificador == 1) printf("ATT_PUBLIC");}
+PUBLIC {if(T_identificador == 1) printf("[ATT_PUBLIC]");}
 id {if(T_identificador == 1) printf("[ATT_id]");}
 dir {if(T_identificador == 1) printf("[ATT_dir]");}
 style {if(T_identificador == 1) printf("[ATT_style]");}
@@ -159,7 +159,7 @@ enctype {if(T_identificador == 1) printf("[ATT_enctype]");}
 method {if(T_identificador == 1) printf("[ATT_method]");}
 checked:checked {if(T_identificador == 1) printf("[ATT_checked]");}
 maxlegth {if(T_identificador == 1) printf("[ATT_maxlegth]");}
-
+lang {if(T_identificador == 1) printf("[ATT_lang]");}
 readonly:readonly {if(T_identificador == 1) printf("[ATT_readonly]");}
 {Tag}	{T_identificador=1;printf("[<]");}
 {TagClose} {T_identificador=0;printf("[>]");}
