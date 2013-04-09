@@ -16,7 +16,7 @@ CommentCloseTag "-->"
 Equal =
 Parentesis "()"
 /*Arreglar esto*/
-Ident  [a-zA-Z][a-z,A-Z,0-9,".",",","/",'\',"-"]*
+Ident  [a-z,A-Z,0-9,".",":",",","/","\-","_",'\\']+
 Expresion "\""+{Ident}+"\""
 Funcion "\""+{Ident}+{Parentesis}"\""
 
@@ -102,7 +102,7 @@ script {if(T_identificador == 1) printf("[T_script]");}
 href {if(T_identificador == 1) printf("[ATT_href]");}/*Atributos*/
 version {if(T_identificador == 1) printf("[ATT_version]");}
 class {if(T_identificador == 1) printf("[ATT_class]");}
-PUBLIC {if(T_identificador == 1) printf("ATT_PUBLIC");}
+PUBLIC {if(T_identificador == 1) printf("[ATT_PUBLIC]");}
 id {if(T_identificador == 1) printf("[ATT_id]");}
 dir {if(T_identificador == 1) printf("[ATT_dir]");}
 style {if(T_identificador == 1) printf("[ATT_style]");}
@@ -159,12 +159,13 @@ enctype {if(T_identificador == 1) printf("[ATT_enctype]");}
 method {if(T_identificador == 1) printf("[ATT_method]");}
 checked:checked {if(T_identificador == 1) printf("[ATT_checked]");}
 maxlegth {if(T_identificador == 1) printf("[ATT_maxlegth]");}
+lang {if(T_identificador == 1) printf("[ATT_lang]");}
 readonly:readonly {if(T_identificador == 1) printf("[ATT_readonly]");}
 {Tag}	{T_identificador=1;printf("[<]");}
 {TagClose} {T_identificador=0;printf("[>]");}
 {FinalTagClose}  {T_identificador=1; printf("[</]");}
-{CommentOpenTag} printf("[<--]");
-CommentCloseTag printf("[-->]");
+{CommentOpenTag} {T_identificador=1;printf("[<--]");}
+CommentCloseTag  {T_identificador=0;printf("[-->]");}
 {Equal} printf("[=]");
 {Parentesis} printf("[()]");
 "?" {if(T_identificador == 1) printf("[?]");}
@@ -185,11 +186,11 @@ CommentCloseTag printf("[-->]");
 ù fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
 @ fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
 ñ fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
-[\n\t] 
+[\t\n]+
+" " ;/*AL parecer el t no toma los espacios solo los tabs*/
 . fprintf(stderr,"Error: Unrecognized character: %s at line: %d\n",yytext,yylineno);
 %%
 int main() {
  yylex();
- printf("Terminó");
  return 1;
 }
